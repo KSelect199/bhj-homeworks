@@ -1,22 +1,26 @@
-const dead = document.getElementById("dead");
-const lost = document.getElementById("lost");
-document.addEventListener("click", function (e) {
-  let targetClick = e.target.className;
-  if (targetClick === "hole hole_has-mole") {
-    dead.textContent = Number(dead.textContent) + 1;
-  } else if (targetClick === "hole") {
-    lost.textContent = Number(lost.textContent) + 1;
-  }
+const decorator = document.getElementsByClassName("indicator");
 
-  if (lost.textContent == 5) {
-    alert("Вы проиграли");
-    dead.textContent = 0;
-    lost.textContent = 0;
-  }
+const arr = () =>
+  Array.from(document.querySelectorAll(".volume-rect")).forEach(
+    (element, index) => {
+      if (index < Number(decorator[0].textContent)) {
+        element.className = "volume-rect volume-rect__active ";
+      } else {
+        element.className = "volume-rect";
+      }
+    }
+  );
 
-  if (dead.textContent == 10) {
-    alert("Вы победили");
-    dead.textContent = 0;
-    lost.textContent = 0;
+addEventListener("click", (e) => {
+  if (e.target.className == "volume-up") {
+    if (Number(decorator[0].textContent) < 10) {
+      decorator[0].textContent = Number(decorator[0].textContent) + 1;
+      arr();
+    }
+  } else if (e.target.className == "volume-down") {
+    if (Number(decorator[0].textContent) > 0) {
+      decorator[0].textContent = Number(decorator[0].textContent) - 1;
+      arr();
+    }
   }
 });
